@@ -3,6 +3,9 @@ using Coolblue.Utilities.MonitoringEvents.Aws.Lambda.Datadog;
 using Coolblue.Utilities.MonitoringEvents.SimpleInjector;
 using {{ cookiecutter.project_name }}.Core;
 using Microsoft.Extensions.Configuration;
+{% if cookiecutter.use_kms =="YES" -%}
+using SecretManagement.Adapter;
+{%- endif %}
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Json;
@@ -38,6 +41,10 @@ namespace {{ cookiecutter.project_name }}.Host.Lambda
             container.RegisterInstance(monitoringEvents);
 
             container.Register<{{ cookiecutter.project_name }}UseCase>();
+
+            {% if cookiecutter.use_kms =="YES" -%}
+            SecretManagementAdapter.AddSecretManagementAdapter(container, lambdaSettings.Environment);
+            {%- endif %}
 
             return container;
         }

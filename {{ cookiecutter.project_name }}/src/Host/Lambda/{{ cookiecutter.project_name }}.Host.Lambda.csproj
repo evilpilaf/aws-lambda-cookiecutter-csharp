@@ -22,6 +22,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\{{ cookiecutter.project_name }}.Core.csproj" />
+    {% if cookiecutter.use_kms =="YES" -%}
+    <ProjectReference Include="..\..\Adapters\SecretManagement.Adapter\SecretManagement.Adapter.csproj" />
+    {%- endif %}
   </ItemGroup>
 
 </Project>
