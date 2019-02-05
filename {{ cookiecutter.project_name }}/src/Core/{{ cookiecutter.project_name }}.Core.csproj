@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Coolblue.Utilities.MonitoringEvents" Version="3.0.3" />
   </ItemGroup>
 
 </Project>
