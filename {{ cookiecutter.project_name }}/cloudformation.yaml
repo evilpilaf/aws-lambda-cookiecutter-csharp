@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Description: {{ cookiecutter.project_short_description }}
+Parameters:
+  AppGroup:
+    Type: String
+    Default: "{{ cookiecutter.project_app_group }}"
+    AllowedPattern: "^[a-z0-9\\-]{1,22}$"
+  Region:
+    Type: String
+    Default: "eu-west-1"
+    AllowedValues:
+      - "eu-west-1"
+  Environment:
+    Type: String
+    AllowedValues:
+      - development
+      - testing
+      - acceptance
+      - production
+    Default: development
+    ConstraintDescription: Must be one of the values from the list.
+    Description: Environment in which resources are deployed.
+Resources:
+  {{ cookiecutter.project_name }}Function:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: "{{ cookiecutter.project_name }}.Host.Lambda::{{ cookiecutter.project_name }}.Host.Lambda.Function::FunctionHandler"
+      Runtime: dotnetcore2.1
+      CodeUri: ./artifacts/{{ cookiecutter.project_name }}.Host.Lambda.zip
+      Description: {{ cookiecutter.project_short_description }}
+      MemorySize: 512
+      Timeout: 15
+      FunctionName: !Sub "${AppGroup}-lambda"
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref "PrivateSecurityGroup"
+        SubnetIds: !Split [",", !ImportValue "infrastructure-lambda-subnets"]
+      Tags:
+        Name: !Sub "${AWS::StackName}"
+        AppGroup: !Sub "${AWS::StackName}"
+        AppRole: "function"
+        Environment: !Ref "Environment"
+      Role: !Sub "{{ cookiecutter.project_name }}-iam-lambda-role"
+      Environment:
+        Variables:
+          Environment: !Ref Environment
+  PrivateSecurityGroup:
+      Type: "AWS::EC2::SecurityGroup"
+      Properties:
+        GroupDescription: "Allowed incoming/outgoing traffic to/from the internal resources"
+        SecurityGroupEgress:
+          - CidrIp: "0.0.0.0/0"
+            FromPort: 443
+            ToPort: 443
+            IpProtocol: "tcp"
+        VpcId: !ImportValue "infrastructure-vpc"
+        Tags:
+          - Key: "Name"
+            Value: !Sub "${AWS::StackName}-private"
+          - Key: "AppRole"
+            Value: "security-group"
+          - Key: "Environment"
+            Value: !Ref "Environment"
+          - Key: "AppGroup"
+            Value: !Ref "AppGroup"
