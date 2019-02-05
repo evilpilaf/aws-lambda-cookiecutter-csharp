@@ -9,11 +9,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C0B3DCC6-7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cloudformation", "cloudformation", "{B6913322-4149-4D32-9A9C-62BF6E4CFA6E}"
 	ProjectSection(SolutionItems) = preProject
+		cloudformation.yaml = cloudformation.yaml
+		cloudformation\parameters.json.template = cloudformation\parameters.json.template
+		cloudformation\testing.parameters.json = cloudformation\testing.parameters.json
+		cloudformation\acceptance.parameters.json = cloudformation\acceptance.parameters.json
+		cloudformation\production.parameters.json = cloudformation\production.parameters.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{43F99F6D-046F-4AF5-9AC5-962AC845A77C}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		build.cake = build.cake
+		build.ps1 = build.ps1
+		build.sh = build.sh
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "{{ cookiecutter.project_name }}.Host.Lambda", "src\Host\Lambda\{{ cookiecutter.project_name }}.Host.Lambda.csproj", "{250DC7DB-C306-41BF-B301-7F774E070DE8}"
@@ -41,7 +50,7 @@ Global
 		{92116F85-5C5C-4344-9F2C-77091FCD763C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{92116F85-5C5C-4344-9F2C-77091FCD763C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92116F85-5C5C-4344-9F2C-77091FCD763C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92116F85-5C5C-4344-9F2C-77091FCD763C}.Release|Any CPU.Build.0 = Release|Any CPU		
+		{92116F85-5C5C-4344-9F2C-77091FCD763C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
