@@ -46,7 +46,7 @@ Resources:
         Variables:
           Environment: !Ref Environment
       Events:
-      {% if cookiecutter.lambda_trigger_type == "SQS" -%}
+      {% if cookiecutter.lambda_trigger_type == "SQS" %}
         RecievedMessageInQueue:
           Type: SQS
           Properties:

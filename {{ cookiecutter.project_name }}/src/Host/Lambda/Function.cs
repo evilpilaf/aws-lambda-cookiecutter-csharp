@@ -54,7 +54,7 @@ namespace {{ cookiecutter.project_name }}.Host.Lambda
                 {
                     using (_monitoringEvents.LogContext.PushProperty(new LogContextProperty("MessageId", message.MessageId)))
                     {
-                        await ProcessMessageAsync(message, context);
+                        await ProcessMessageAsync(message);
                     }
                 }
             }
