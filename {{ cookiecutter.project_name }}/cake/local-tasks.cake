@@ -24,7 +24,9 @@ Task("Deploy-Local")
     .WithCriteria(BuildSystem.IsLocalBuild)
 	.Does(() =>
     {
+        {% if cookiecutter.lambda_trigger_type == "SQS" -%}
         const string eventFile = "testEvents/sqsEvent.json";
+        {%- endif %}
         var parameterOverrides = BuildParameterOverrides();
         var settings = new ProcessSettings
         {
