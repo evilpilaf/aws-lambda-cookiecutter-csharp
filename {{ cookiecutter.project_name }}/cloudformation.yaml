@@ -45,6 +45,14 @@ Resources:
       Environment:
         Variables:
           Environment: !Ref Environment
+      {% if cookiecutter.lambda_trigger_type == "SQS" -%}
+      Events:
+        RecievedMessageInQueue:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt "Queue.Arn"
+            BatchSize: 1 #Capped at 1 as the failover mechanism for queue events doesn't allow to acknowledge or reject individual messages
+      {%- endif %}
   PrivateSecurityGroup:
       Type: "AWS::EC2::SecurityGroup"
       Properties:
@@ -64,3 +72,42 @@ Resources:
             Value: !Ref "Environment"
           - Key: "AppGroup"
             Value: !Ref "AppGroup"
+
+  {% if cookiecutter.lambda_trigger_type == "SQS" -%}
+  DeadLetterQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      DelaySeconds: 0
+      QueueName: "" #TODO set the name of the resource
+      MessageRetentionPeriod: 1209600
+      ReceiveMessageWaitTimeSeconds: 20
+      VisibilityTimeout: 120
+      Tags:
+        - Key: Name
+          Value: "" #TODO set the name of the resource
+        - Key: Environment
+          Value: !Ref "Environment"
+        - Key: AppGroup
+          Value: !Sub "${AWS::StackName}"
+        - Key: AppRole
+          Value: "DeadLetter Queue"
+  Queue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: "" #TODO set the name of the resource
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt "DeadLetterQueue.Arn"
+        maxReceiveCount: 10
+      MessageRetentionPeriod: 1209600
+      ReceiveMessageWaitTimeSeconds: 20
+      VisibilityTimeout: 120
+      Tags:
+        - Key: Name
+          Value: "" #TODO set the name of the resource
+        - Key: Environment
+          Value: !Ref "Environment"
+        - Key: AppGroup
+          Value: !Sub "${AWS::StackName}"
+        - Key: AppRole
+          Value: "Queue"
+  {%- endif %}
