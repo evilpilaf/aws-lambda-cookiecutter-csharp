@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Coolblue.Serilog.Sinks.InMemory" Version="2.1.0" />
+    <PackageReference Include="Coolblue.Utilities.MonitoringEvents.InMemoryMetrics" Version="3.1.0" />
+    <PackageReference Include="Coolblue.Utilities.MonitoringEvents.SimpleInjector" Version="2.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="Moq" Version="4.10.1" />
     <PackageReference Include="TeamCity.VSTest.TestAdapter" Version="1.0.13" />
