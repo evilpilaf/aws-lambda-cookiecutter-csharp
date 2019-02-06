@@ -1,7 +1,7 @@
 using Coolblue.Utilities.MonitoringEvents;
 using Coolblue.Utilities.MonitoringEvents.Aws.Lambda.Datadog;
 using Coolblue.Utilities.MonitoringEvents.SimpleInjector;
-using {{ cookiecutter.project_name }}.Core;
+using {{ cookiecutter.project_slug }}.Core;
 using Microsoft.Extensions.Configuration;
 {% if cookiecutter.use_kms =="YES" -%}
 using SecretManagement.Adapter;
@@ -12,7 +12,7 @@ using Serilog.Formatting.Json;
 using SimpleInjector;
 using System.IO;
 
-namespace {{ cookiecutter.project_name }}.Host.Lambda
+namespace {{ cookiecutter.project_slug }}.Host.Lambda
 {
     public static class Bootstrapper
     {
@@ -40,7 +40,7 @@ namespace {{ cookiecutter.project_name }}.Host.Lambda
 
             container.RegisterInstance(monitoringEvents);
 
-            container.Register<{{ cookiecutter.project_name }}UseCase>();
+            container.Register<{{ cookiecutter.project_slug }}UseCase>();
 
             {% if cookiecutter.use_kms =="YES" -%}
             SecretManagementAdapter.AddSecretManagementAdapter(container, lambdaSettings.Environment);

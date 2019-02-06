@@ -1,6 +1,6 @@
 using Amazon.KeyManagementService;
-using {{ cookiecutter.project_name }}.Core.Ports;
-using {{ cookiecutter.project_name }}.Core.ValueTypes;
+using {{ cookiecutter.project_slug }}.Core.Ports;
+using {{ cookiecutter.project_slug }}.Core.ValueTypes;
 using SecretManagement.Adapter.InMemory;
 using SecretManagement.Adapter.Kms;
 using SimpleInjector;

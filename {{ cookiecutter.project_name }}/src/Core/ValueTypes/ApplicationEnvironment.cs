@@ -1,4 +1,4 @@
-namespace {{ cookiecutter.project_name }}.Core.ValueTypes
+namespace {{ cookiecutter.project_slug }}.Core.ValueTypes
 {
     public enum ApplicationEnvironment
     {

@@ -25,10 +25,10 @@ var sourceDir = Directory("./src");
 var solutions = GetFiles("./**/*.sln");
 var projects = new []
 {
-    sourceDir.Path + "/Host/Lambda/{{ cookiecutter.project_name }}.Host.Lambda.csproj",
+    sourceDir.Path + "/Host/Lambda/{{ cookiecutter.project_slug }}.Host.Lambda.csproj",
 };
 
-const string functionName = "{{ cookiecutter.project_name }}Function";
+const string functionName = "{{ cookiecutter.project_slug }}Function";
 
 // BUILD OUTPUT DIRECTORIES
 var artifactsDir = Directory("./artifacts");

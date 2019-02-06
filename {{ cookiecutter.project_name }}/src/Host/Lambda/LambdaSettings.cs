@@ -1,7 +1,7 @@
-using {{ cookiecutter.project_name }}.Core.ValueTypes;
+using {{ cookiecutter.project_slug }}.Core.ValueTypes;
 using System;
 
-namespace {{ cookiecutter.project_name }}.Host.Lambda
+namespace {{ cookiecutter.project_slug }}.Host.Lambda
 {
     public sealed class LambdaSettings
     {

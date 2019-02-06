@@ -10,13 +10,13 @@ using SimpleInjector.Lifestyles;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using {{ cookiecutter.project_name }}.Core;
+using {{ cookiecutter.project_slug }}.Core;
 
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 
-namespace {{ cookiecutter.project_name }}.Host.Lambda
+namespace {{ cookiecutter.project_slug }}.Host.Lambda
 {
     public class Function
     {
@@ -83,7 +83,7 @@ namespace {{ cookiecutter.project_name }}.Host.Lambda
             using (Scope scope = AsyncScopedLifestyle.BeginScope(_container))
             {
                 _monitoringEvents.Logger.Information("Processed message {message}", message);
-                var useCase = scope.GetInstance<{{ cookiecutter.project_name }}UseCase>();
+                var useCase = scope.GetInstance<{{ cookiecutter.project_slug }}UseCase>();
 
                 await useCase.Execute();
             }

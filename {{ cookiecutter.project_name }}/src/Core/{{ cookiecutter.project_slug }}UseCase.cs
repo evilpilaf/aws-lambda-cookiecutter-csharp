@@ -1,13 +1,13 @@
 using Coolblue.Utilities.MonitoringEvents;
 using System.Threading.Tasks;
 
-namespace {{ cookiecutter.project_name }}.Core
+namespace {{ cookiecutter.project_slug }}.Core
 {
-    public sealed class {{ cookiecutter.project_name }}UseCase
+    public sealed class {{ cookiecutter.project_slug }}UseCase
     {
         public MonitoringEvents MonitoringEvents { get; set; }
 
-        public {{ cookiecutter.project_name }}UseCase()
+        public {{ cookiecutter.project_slug }}UseCase()
         {
         }
 

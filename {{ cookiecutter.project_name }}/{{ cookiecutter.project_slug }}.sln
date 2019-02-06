@@ -25,11 +25,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "{{ cookiecutter.project_name }}.Host.Lambda", "src\Host\Lambda\{{ cookiecutter.project_name }}.Host.Lambda.csproj", "{250DC7DB-C306-41BF-B301-7F774E070DE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "{{ cookiecutter.project_slug }}.Host.Lambda", "src\Host\Lambda\{{ cookiecutter.project_slug }}.Host.Lambda.csproj", "{250DC7DB-C306-41BF-B301-7F774E070DE8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "{{ cookiecutter.project_name }}.Core", "src\Core\{{ cookiecutter.project_name }}.Core.csproj", "{B038F2BE-9F7A-4AF5-A1DF-C8B2BE2BB0C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "{{ cookiecutter.project_slug }}.Core", "src\Core\{{ cookiecutter.project_slug }}.Core.csproj", "{B038F2BE-9F7A-4AF5-A1DF-C8B2BE2BB0C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "{{ cookiecutter.project_name }}.Host.Lambda.Tests", "test\{{ cookiecutter.project_name }}.Host.Lambda.Tests\{{ cookiecutter.project_name }}.Host.Lambda.Tests.csproj", "{92116F85-5C5C-4344-9F2C-77091FCD763C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "{{ cookiecutter.project_slug }}.Host.Lambda.Tests", "test\{{ cookiecutter.project_slug }}.Host.Lambda.Tests\{{ cookiecutter.project_slug }}.Host.Lambda.Tests.csproj", "{92116F85-5C5C-4344-9F2C-77091FCD763C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{F096B952-E5DF-4918-8531-E4E6C322F239}"
 EndProject

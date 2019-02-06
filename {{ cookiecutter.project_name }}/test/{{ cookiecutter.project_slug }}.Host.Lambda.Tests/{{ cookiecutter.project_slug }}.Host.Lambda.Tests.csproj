@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Host\Lambda\{{ cookiecutter.project_name }}.Host.Lambda.csproj" />
+    <ProjectReference Include="..\..\src\Host\Lambda\{{ cookiecutter.project_slug }}.Host.Lambda.csproj" />
   </ItemGroup>
 
 </Project>

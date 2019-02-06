@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace {{ cookiecutter.project_name }}.Core.Ports
+namespace {{ cookiecutter.project_slug }}.Core.Ports
 {
     public interface ISecretManagementService
     {

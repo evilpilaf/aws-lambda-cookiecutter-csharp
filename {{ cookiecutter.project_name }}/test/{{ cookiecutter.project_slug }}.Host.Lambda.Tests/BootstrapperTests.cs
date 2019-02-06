@@ -4,9 +4,9 @@ using System.Text;
 
 using Coolblue.Serilog.Sinks.InMemory;
 
-using {{ cookiecutter.project_name }}.Core;
-using {{ cookiecutter.project_name }}.Core.Ports;
-using {{ cookiecutter.project_name }}.Core.ValueTypes;
+using {{ cookiecutter.project_slug }}.Core;
+using {{ cookiecutter.project_slug }}.Core.Ports;
+using {{ cookiecutter.project_slug }}.Core.ValueTypes;
 
 using FluentAssertions;
 using Moq;
@@ -19,7 +19,7 @@ using SecretManagement.Adapter.Kms;
 {% endif -%}
 
 
-namespace {{ cookiecutter.project_name }}.Host.Lambda.Tests
+namespace {{ cookiecutter.project_slug }}.Host.Lambda.Tests
 {
     public sealed class BootstrapperTests
     {
@@ -60,7 +60,7 @@ namespace {{ cookiecutter.project_name }}.Host.Lambda.Tests
         {
             var sut = CreateSut(TestSettings(environment));
 
-            Action func = () => sut.GetInstance<{{ cookiecutter.project_name }}UseCase>();
+            Action func = () => sut.GetInstance<{{ cookiecutter.project_slug }}UseCase>();
 
             func.Should().NotThrow();
         }

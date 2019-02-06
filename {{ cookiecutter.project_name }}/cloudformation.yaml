@@ -22,12 +22,12 @@ Parameters:
     ConstraintDescription: Must be one of the values from the list.
     Description: Environment in which resources are deployed.
 Resources:
-  {{ cookiecutter.project_name }}Function:
+  {{ cookiecutter.project_slug }}Function:
     Type: "AWS::Serverless::Function"
     Properties:
-      Handler: "{{ cookiecutter.project_name }}.Host.Lambda::{{ cookiecutter.project_name }}.Host.Lambda.Function::FunctionHandler"
+      Handler: "{{ cookiecutter.project_slug }}.Host.Lambda::{{ cookiecutter.project_slug }}.Host.Lambda.Function::FunctionHandler"
       Runtime: dotnetcore2.1
-      CodeUri: ./artifacts/{{ cookiecutter.project_name }}.Host.Lambda.zip
+      CodeUri: ./artifacts/{{ cookiecutter.project_slug }}.Host.Lambda.zip
       Description: {{ cookiecutter.project_short_description }}
       MemorySize: 512
       Timeout: 15
@@ -41,7 +41,7 @@ Resources:
         AppGroup: !Sub "${AWS::StackName}"
         AppRole: "function"
         Environment: !Ref "Environment"
-      Role: !Sub "{{ cookiecutter.project_name }}-iam-lambda-role"
+      Role: !Sub "{{ cookiecutter.project_slug }}-iam-lambda-role"
       Environment:
         Variables:
           Environment: !Ref Environment

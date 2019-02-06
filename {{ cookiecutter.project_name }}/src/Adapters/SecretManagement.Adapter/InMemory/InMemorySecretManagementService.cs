@@ -1,4 +1,4 @@
-using {{ cookiecutter.project_name }}.Core.Ports;
+using {{ cookiecutter.project_slug }}.Core.Ports;
 using System.Threading.Tasks;
 
 namespace SecretManagement.Adapter.InMemory

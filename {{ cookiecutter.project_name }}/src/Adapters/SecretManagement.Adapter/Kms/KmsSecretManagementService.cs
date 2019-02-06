@@ -1,6 +1,6 @@
 using Amazon.KeyManagementService;
 using Amazon.KeyManagementService.Model;
-using {{ cookiecutter.project_name }}.Core.Ports;
+using {{ cookiecutter.project_slug }}.Core.Ports;
 using System;
 using System.IO;
 using System.Threading.Tasks;
