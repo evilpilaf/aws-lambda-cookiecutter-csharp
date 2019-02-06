@@ -13,3 +13,4 @@ if __name__ == '__main__':
 
     if '{{ cookiecutter.use_kms }}' == 'NO':
         shutil.rmtree(os.path.join(PROJECT_DIRECTORY, "src/Adapters/SecretManagement.Adapter"))
+        remove_file("src/Core/Ports/ISecretManagementService.cs")
