@@ -1,4 +1,7 @@
 using Amazon.Lambda.Core;
+{% if cookiecutter.lambda_trigger_type == "SQS" -%}
+using Amazon.Lambda.SQSEvents;
+{%- endif %}
 using Coolblue.Utilities.MonitoringEvents;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
@@ -40,11 +43,15 @@ namespace {{ cookiecutter.project_name }}.Host.Lambda
         /// </summary>
         /// <param name="evnt"></param>
         /// <param name="context"></param>
-        public async Task FunctionHandler(Stream evnt, ILambdaContext context)
+        {% if cookiecutter.lambda_trigger_type == "SQS" -%}
+        public async Task FunctionHandler(SQSEvent evnt, ILambdaContext context)
         {
             try
             {
-                await ProcessMessageAsync(evnt, context);
+                foreach (var message in evnt.Records)
+                {
+                    await ProcessMessageAsync(message, context);
+                }
             }
             catch (Exception ex)
             {
@@ -52,17 +59,20 @@ namespace {{ cookiecutter.project_name }}.Host.Lambda
                 throw; //Exceptions have to be rethrown to signal the lambda runtime in AWS to requeue the message(s)
             }
         }
-
-        private async Task ProcessMessageAsync(Stream message, ILambdaContext context)
+        private async Task ProcessMessageAsync(SQSEvent.SQSMessage message, ILambdaContext context)
+        {%- endif %}
         {
-            var correlationId = GetCorrelationId();
-            using (_monitoringEvents.LogContext.PushProperty(new LogContextProperty("CorrelationId", correlationId.ToString())))
-            using (Scope scope = AsyncScopedLifestyle.BeginScope(_container))
+            using (_monitoringEvents.LogContext.PushProperty(new LogContextProperty("MessageId", message.MessageId)))
             {
-                _monitoringEvents.Logger.Information("Processed message {messageBody}", message);
-                var useCase = scope.GetInstance<{{ cookiecutter.project_name }}UseCase>();
+                var correlationId = GetCorrelationId();
+                using (_monitoringEvents.LogContext.PushProperty(new LogContextProperty("CorrelationId", correlationId.ToString())))
+                using (Scope scope = AsyncScopedLifestyle.BeginScope(_container))
+                {
+                    _monitoringEvents.Logger.Information("Processed message {messageBody}", message);
+                    var useCase = scope.GetInstance<{{ cookiecutter.project_name }}UseCase>();
 
-                await useCase.Execute();
+                    await useCase.Execute();
+                }
             }
         }
 
