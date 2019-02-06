@@ -26,6 +26,8 @@ Task("Deploy-Local")
     {
         {% if cookiecutter.lambda_trigger_type == "SQS" -%}
         const string eventFile = "testEvents/sqsEvent.json";
+        {% elif cookiecutter.lambda_trigger_type == "API" -%}
+        const string eventFile = "testEvents/apiEvent.json";
         {%- endif %}
         var parameterOverrides = BuildParameterOverrides();
         var settings = new ProcessSettings

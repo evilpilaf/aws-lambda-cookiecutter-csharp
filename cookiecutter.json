@@ -3,5 +3,5 @@
   "project_short_description": "A short description of the project",
   "project_app_group": "The AppGroup for the project",
   "use_kms": ["YES", "NO"],
-  "lambda_trigger_type": ["SQS"]
+  "lambda_trigger_type": ["SQS", "API"]
 }

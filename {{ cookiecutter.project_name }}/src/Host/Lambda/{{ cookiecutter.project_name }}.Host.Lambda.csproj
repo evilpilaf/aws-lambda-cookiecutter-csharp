@@ -10,6 +10,8 @@
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.4.0" />
     {% if cookiecutter.lambda_trigger_type == "SQS" -%}
     <PackageReference Include="Amazon.Lambda.SQSEvents" Version="1.0.0" />
+    {% elif cookiecutter.lambda_trigger_type == "API" -%}
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="1.1.3" />
     {%- endif %}
     <PackageReference Include="Coolblue.Utilities.MonitoringEvents.Aws.Lambda.Datadog" Version="1.0.0" />
     <PackageReference Include="Coolblue.Utilities.MonitoringEvents.SimpleInjector" Version="2.0.1" />

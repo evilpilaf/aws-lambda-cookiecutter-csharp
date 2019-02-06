@@ -1,12 +1,14 @@
 using Amazon.Lambda.Core;
 {% if cookiecutter.lambda_trigger_type == "SQS" -%}
 using Amazon.Lambda.SQSEvents;
+{% elif cookiecutter.lambda_trigger_type == "API" -%}
+using Amazon.Lambda.APIGatewayEvents;
 {%- endif %}
 using Coolblue.Utilities.MonitoringEvents;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using {{ cookiecutter.project_name }}.Core;
 
@@ -50,7 +52,10 @@ namespace {{ cookiecutter.project_name }}.Host.Lambda
             {
                 foreach (var message in evnt.Records)
                 {
-                    await ProcessMessageAsync(message, context);
+                    using (_monitoringEvents.LogContext.PushProperty(new LogContextProperty("MessageId", message.MessageId)))
+                    {
+                        await ProcessMessageAsync(message, context);
+                    }
                 }
             }
             catch (Exception ex)
@@ -59,20 +64,28 @@ namespace {{ cookiecutter.project_name }}.Host.Lambda
                 throw; //Exceptions have to be rethrown to signal the lambda runtime in AWS to requeue the message(s)
             }
         }
-        private async Task ProcessMessageAsync(SQSEvent.SQSMessage message, ILambdaContext context)
-        {%- endif %}
+        {% elif cookiecutter.lambda_trigger_type == "API" -%}
+        public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
         {
-            using (_monitoringEvents.LogContext.PushProperty(new LogContextProperty("MessageId", message.MessageId)))
-            {
-                var correlationId = GetCorrelationId();
-                using (_monitoringEvents.LogContext.PushProperty(new LogContextProperty("CorrelationId", correlationId.ToString())))
-                using (Scope scope = AsyncScopedLifestyle.BeginScope(_container))
-                {
-                    _monitoringEvents.Logger.Information("Processed message {messageBody}", message);
-                    var useCase = scope.GetInstance<{{ cookiecutter.project_name }}UseCase>();
+            await ProcessMessageAsync(apigProxyEvent.Body);
 
-                    await useCase.Execute();
-                }
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = 200,
+                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
+            };
+        }
+        {%- endif %}
+        private async Task ProcessMessageAsync(object message)
+        {
+            var correlationId = GetCorrelationId();
+            using (_monitoringEvents.LogContext.PushProperty(new LogContextProperty("CorrelationId", correlationId.ToString())))
+            using (Scope scope = AsyncScopedLifestyle.BeginScope(_container))
+            {
+                _monitoringEvents.Logger.Information("Processed message {message}", message);
+                var useCase = scope.GetInstance<{{ cookiecutter.project_name }}UseCase>();
+
+                await useCase.Execute();
             }
         }
 

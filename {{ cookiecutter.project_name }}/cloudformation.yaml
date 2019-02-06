@@ -45,13 +45,19 @@ Resources:
       Environment:
         Variables:
           Environment: !Ref Environment
-      {% if cookiecutter.lambda_trigger_type == "SQS" -%}
       Events:
+      {% if cookiecutter.lambda_trigger_type == "SQS" -%}
         RecievedMessageInQueue:
           Type: SQS
           Properties:
             Queue: !GetAtt "Queue.Arn"
             BatchSize: 1 #Capped at 1 as the failover mechanism for queue events doesn't allow to acknowledge or reject individual messages
+      {% elif cookiecutter.lambda_trigger_type == "API" %}
+        CatchAll:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /{proxy+}
+            Method: any
       {%- endif %}
   PrivateSecurityGroup:
       Type: "AWS::EC2::SecurityGroup"
@@ -72,7 +78,6 @@ Resources:
             Value: !Ref "Environment"
           - Key: "AppGroup"
             Value: !Ref "AppGroup"
-
   {% if cookiecutter.lambda_trigger_type == "SQS" -%}
   DeadLetterQueue:
     Type: "AWS::SQS::Queue"
