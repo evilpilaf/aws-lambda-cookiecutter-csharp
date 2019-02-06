@@ -24,10 +24,11 @@ Task("Deploy-Local")
     .WithCriteria(BuildSystem.IsLocalBuild)
 	.Does(() =>
     {
+        const string eventFile = "testEvents/sqsEvent.json";
         var parameterOverrides = BuildParameterOverrides();
         var settings = new ProcessSettings
         {
-            Arguments = $"local invoke \"{functionName}\" -e event.json --template cloudformation.yaml --parameter-overrides \"{parameterOverrides}\" ",
+            Arguments = $"local invoke \"{functionName}\" -e {eventFile} --template cloudformation.yaml --parameter-overrides \"{parameterOverrides}\" ",
             RedirectStandardOutput = true,
             RedirectStandardError = true
         };
@@ -41,7 +42,7 @@ Task("Deploy-Local")
                 foreach(var o in process.GetStandardOutput())
                 {
                     Information(o);
-                }             
+                }
                 foreach(var o in process.GetStandardError())
                 {
                     Information(o);
